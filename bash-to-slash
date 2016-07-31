@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 help() {
+  # This is the what I need right now. HELP!
   HELP_MESSAGE='This is a place holder for the real help message.'
   printf "%s" "${HELP_MESSAGE}"
 }
