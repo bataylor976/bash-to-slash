@@ -1,7 +1,18 @@
 #! /usr/bin/env bash
 
+help() {
+  HELP_MESSAGE='This is a place holder for the real help message.'
+  printf "%s" "${HELP_MESSAGE}"
+}
+
 main() {
-  printf "I have an idea on using indicators."
+  while getopts "h" OPTION; do
+    case "${OPTION}" in
+      h)
+        help
+        exit 1;;
+    esac
+  done
 }
 
 main "${@}"
