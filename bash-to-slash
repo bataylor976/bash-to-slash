@@ -6,11 +6,48 @@ help() {
   printf "%s" "${HELP_MESSAGE}"
 }
 
+placepiece() {
+#TODO: code to place game piece in selected directory path.
+}
+
+hideaway() {
+  while true
+    trap '' 2
+    do
+      echo -en "\ec"
+      echo "======================================================================="
+      echo "Choose your hiding places----" #TODO: That sounds so lame! I have to change that.
+      echo "======================================================================="
+      #TODO: What are we calling these "things" we're puutting in the directories?
+      #TODO: Discuss which directories we wish to use.
+      echo "Enter 1 to place [GAME PIECE??] in [DIRECTORY PATH??]: "
+      echo "Enter 2 to place [??] in [??]: "
+      echo "Enter 3 to place [??] in [??]: "
+      #TODO: add more options. Choose x out of totaly y? 
+      echo "Enter q to exit menu q: "
+      echo -e "\n"
+      echo -e "Enter your selection \c"
+      read answer
+      case "$answer" in
+        1)  ;;  #TODO: dirpath=/path/to/piece"; placepiece $dirpath 
+        2)  ;;
+        3)  ;;
+        r) exit;; #TODO: Really needs to be return to main menu. Right?
+      esac
+      echo -e "\n"
+      echo -e "Enter return to continue \c"
+      read input
+    done
+}
+
 main() {
   while getopts "h" OPTION; do
     case "${OPTION}" in
       h)
         help
+        exit 1;;
+      s) 
+        hideaway()
         exit 1;;
     esac
   done
