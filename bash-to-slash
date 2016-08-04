@@ -12,7 +12,6 @@ placepiece() {
 
 hideaway() {
   while true
-    trap '' 2
     do
       printf "\033c"
       printf "=======================================================================\n"
