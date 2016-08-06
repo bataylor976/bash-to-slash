@@ -19,7 +19,7 @@ hideaway() {
       printf "======================================================================="
       #TODO: What are we calling these "things" we're putting in the directories?
       #TODO: Discuss which directories we wish to use.
-      printf "Enter 1 to place in /home/pupi/Desktop \n"
+      printf "Enter 1 to place in $HOME/Desktop \n"
       printf "Enter 2 to place [??] in [??]: \n"
       printf "Enter 3 to place [??] in [??]: \n"
       #TODO: add more options. Choose x out of total y? 
