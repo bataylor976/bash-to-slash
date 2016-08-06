@@ -7,7 +7,7 @@ help() {
 }
 
 placepiece() {
-#TODO: code to place game piece in selected directory path.
+    printf "" >> "${1}"
 }
 
 hideaway() {
@@ -17,24 +17,23 @@ hideaway() {
       printf "=======================================================================\n"
       printf "Choose your hiding places----\n" #TODO: That sounds so lame! I have to change that.
       printf "======================================================================="
-      #TODO: What are we calling these "things" we're puutting in the directories?
+      #TODO: What are we calling these "things" we're putting in the directories?
       #TODO: Discuss which directories we wish to use.
-      printf "Enter 1 to place [GAME PIECE??] in [DIRECTORY PATH??]: \n"
+      printf "Enter 1 to place in /home/pupi/Desktop \n"
       printf "Enter 2 to place [??] in [??]: \n"
       printf "Enter 3 to place [??] in [??]: \n"
-      #TODO: add more options. Choose x out of totaly y? 
-       "Enter q to exit menu q: "
+      #TODO: add more options. Choose x out of total y? 
+       "Enter r to exit menu r: "
       printf "\n"
       read -p "Enter your selection \c"
       case "$answer" in
-        1)  ;;  #TODO: dirpath=/path/to/piece"; placepiece $dirpath 
+        1) placepiece  ;;  #TODO: dirpath=/path/to/piece"; placepiece $dirpath 
         2)  ;;
         3)  ;;
         r) exit;; #TODO: Really needs to be return to main menu. Right?
       esac
       printf "\n"
-      printf "Enter return to continue \c"
-      read input
+      read -p "Enter return to continue \c"
     done
 }
 
