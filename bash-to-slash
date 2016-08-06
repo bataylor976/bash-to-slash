@@ -11,43 +11,52 @@ placepiece() {
 }
 
 hideaway() {
-  while true
-    do
-      printf "\033c"
-      printf "=======================================================================\n"
-      printf "Choose your hiding places----\n" #TODO: That sounds so lame! I have to change that.
-      printf "======================================================================="
-      #TODO: What are we calling these "things" we're putting in the directories?
-      #TODO: Discuss which directories we wish to use.
-      printf "Enter 1 to place in $HOME/Desktop \n"
-      printf "Enter 2 to place [??] in [??]: \n"
-      printf "Enter 3 to place [??] in [??]: \n"
-      #TODO: add more options. Choose x out of total y? 
-       "Enter r to exit menu r: "
-      printf "\n"
-      read -p "Enter your selection \c"
-      case "$answer" in
-        1) placepiece  ;;  #TODO: dirpath=/path/to/piece"; placepiece $dirpath 
-        2)  ;;
-        3)  ;;
-        r) exit;; #TODO: Really needs to be return to main menu. Right?
-      esac
-      printf "\n"
-      read -p "Enter return to continue \c"
-    done
-}
-
-main() {
-  while getopts "h" OPTION; do
-    case "${OPTION}" in
-      h)
-        help
-        exit 1;;
-      s) 
-        hideaway()
-        exit 1;;
+  COUNT=0
+  while [[ "$COUNT" -lt 3 ]]; do
+    printf "\033c"
+    printf "=======================================================================\n"
+    printf "Choose three of the following for your hiding places----\n" #TODO: That sounds so lame! I have to change that.
+    printf "=======================================================================\n"
+    #TODO: What are we calling these "things" we're putting in the directories?
+    #TODO: Discuss which directories we wish to use.
+    printf "Enter 1 to place in $HOME/Desktop/test1/ \n"
+    printf "Enter 2 to place in $HOME/Desktop/test2/ \n"
+    printf "Enter 3 to place in $HOME/Desktop/test3/ \n"
+    printf "Enter 4 to place in $HOME/Desktop/test4/ \n"
+    printf "Enter 5 to place in $HOME/Desktop/test5/ \n"
+    #TODO: add more options. Choose x out of total y? 
+    printf "Enter r to exit menu \n"
+    printf "\n"
+    read -p "Enter your selection" answer
+    case "$answer" in
+    #TODO: I also need to have some testing at some point after the case statement to prevent repeat selections or accidental keystrokes. 
+      1) 
+        DIR=$HOME/Desktop/test1/test.txt #I used this path for testing only. We'll obviously replace with the real directory paths and files later
+        placepiece "$DIR";;  
+      2) 
+        DIR=$HOME/Desktop/test2/test.txt
+        placepiece "$DIR";;
+      3)
+        DIR=$HOME/Desktop/test3/test.txt 
+        placepiece "$DIR";;
+      4) 
+        DIR=$HOME/Desktop/test4/test.txt
+        placepiece "$DIR";;
+      5)
+        DIR=$HOME/Desktop/test5/test.txt 
+        placepiece "$DIR";;
+      r) 
+        main;; #TODO: Not sure why I even put anything here because I have that "if" statement below. ???
     esac
+    if [[ "$answer" -ne "r" ]]; then
+      printf "Piece created and placed in %s\n" "$DIR"
+    else
+      main
+    fi
+    COUNT="$COUNT"+1
+    read -p "Enter return to continue"
   done
+  main
 }
 
 main "${@}"
