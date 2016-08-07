@@ -11,7 +11,10 @@ placepiece() {
 }
 
 hideaway() {
+  BADMATCH="[A-Za-qs-z06-9]"
   COUNT=0
+  #TODO: Create an array of valid responses, so that when this array is filled to a particular number of valid responses, then start the game. 
+  #      Otherwise, continue appending responses.
   while [[ "$COUNT" -lt 3 ]]; do
     printf "\033c"
     printf "=======================================================================\n"
@@ -27,8 +30,8 @@ hideaway() {
     #TODO: add more options. Choose x out of total y? 
     printf "Enter r to exit menu \n"
     printf "\n"
-    read -p "Enter your selection" answer
-    case "$answer" in
+    read -p "Enter your selection" ANSWER
+    case "$ANSWER" in
     #TODO: I also need to have some testing at some point after the case statement to prevent repeat selections or accidental keystrokes. 
       1) 
         DIR=$HOME/Desktop/test1/test.txt #I used this path for testing only. We'll obviously replace with the real directory paths and files later
@@ -46,11 +49,18 @@ hideaway() {
         DIR=$HOME/Desktop/test5/test.txt 
         placepiece "$DIR";;
       r) 
-        main;; #TODO: Not sure why I even put anything here because I have that "if" statement below. ???
+        #printf 'Returning to main menu'
+        ;; #TODO: Not sure why I even put anything here because I have that "if" statement below. ???
+      $BADMATCH)
+        #printf "Bad match.\n"
+        ;;
     esac
-    if [[ "$answer" -ne "r" ]]; then
+    if [[ $ANSWER =~ [1-5] ]]; then
       printf "Piece created and placed in %s\n" "$DIR"
+    elif [[ $ANSWER =~ $BADMATCH ]]; then
+      printf "Pattern not found. Valid range is 1-5 or r for main menu.\n"
     else
+      printf "Returning to main menu.\n"
       main
     fi
     COUNT="$COUNT"+1
@@ -58,5 +68,6 @@ hideaway() {
   done
   main
 }
+
 
 main "${@}"
