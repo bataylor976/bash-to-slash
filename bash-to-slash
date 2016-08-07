@@ -11,7 +11,7 @@ placepiece() {
 }
 
 hideaway() {
-  BADMATCH="[A-Za-qs-z06-9]"
+  BADMATCH="[^1-5r]"
   COUNT=0
   #TODO: Create an array of valid responses, so that when this array is filled to a particular number of valid responses, then start the game. 
   #      Otherwise, continue appending responses.
