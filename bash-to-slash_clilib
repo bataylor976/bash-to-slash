@@ -1,11 +1,28 @@
-#Commandline interface functions
+#!/bin/bash
+#Bash-to-slash commandline interface function library 
 
 #List the designated directories.
 listdirs() {
-  arraydirs=('/path/to/file1' '/path/to/file2' '/path/to/file3' '/path/to/file4'\
+  arraydirs=('$HOME/Desktop/test1' '/path/to/file2' '/path/to/file3' '/path/to/file4'\
   '/path/to/file5' '/path/to/file6' '/path/to/file7' '/path/to/file8'\
   '/path/to/file9' '/path/to/file10' '/path/to/file11' '/path/to/file12' )
   for i in "${arraydirs[@]}"; do
     printf "%s\n" $i
   done
+}
+
+#Place the game piece in directory path stored in arraydirs.
+placepiece() {
+  hidingplace="${1}"
+  testplace
+  printf "" > "${hidingplace}"
+}
+
+#Test to make sure piece location is valid.
+testplace() {
+  if ! [[ $hidingplace =~ "${arraydirs[@]}" ]]; then
+    printf "Invalid location. Please try again.\n"
+  else 
+    printf "Piece placed in %s.\n" $hidingplace
+  fi
 }
