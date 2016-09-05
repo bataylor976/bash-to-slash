@@ -1,11 +1,15 @@
 #!/bin/bash
 #Bash-to-slash commandline interface function library 
 
+# Initializes the array that holds the game's directory paths for piece placement.
+initdirs() {
+  correctdirs=( "$HOME/Desktop/test1" "$HOME/Desktop/testdir/test1" '/path/to/file3' '/path/to/file4'\
+  '/path/to/file5' '/path/to/file6' '/path/to/file7' '/path/to/file8'\
+  '/path/to/file9' '/path/to/file10' '/path/to/file11' '/path/to/file12' ) 
+}
+
 #List the designated directories.
 listdirs() {
-  correctdirs=("$HOME/Desktop/test1" "$HOME/Desktop/testdir/test1" '/path/to/file3' '/path/to/file4'\
-  '/path/to/file5' '/path/to/file6' '/path/to/file7' '/path/to/file8'\
-  '/path/to/file9' '/path/to/file10' '/path/to/file11' '/path/to/file12' )
   for i in "${correctdirs[@]}"; do
     printf "%s\n" $i
   done
@@ -13,7 +17,7 @@ listdirs() {
 
 # Stores player's selected hidingplace.
 selectpiece() {
-  hidingplace=$1
+  hidingplace="${1}"
   placepiece
 }
 
@@ -28,8 +32,10 @@ placepiece() {
     clearvars
   elif [[ $correct = n ]]; then
     printf "Invalid location or filname: %s\nPlease select another.\n" $hidingplace
+    clearvars
   else
     printf "Location already selected: %s\nPlease select another.\n" "$hidingplace"
+    clearvars
   fi
 }
 
@@ -49,12 +55,9 @@ listselect() {
 isin() {
   local pattern="$1" element
   shift
-  
-  for element
-  do
+  for element; do
     [[ $element = $pattern ]] && return 0
   done
-
   return 1
 }
 
@@ -83,3 +86,6 @@ clearvars() {
   unset correct
   unset selected
 }
+
+# Create the directories.
+initdirs
