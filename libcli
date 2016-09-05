@@ -15,7 +15,7 @@ listdirs() {
   done
 }
 
-# Stores player's selected hidingplace.
+# Stores & places  player's selected hidingplace.
 selectpiece() {
   hidingplace="${1}"
   placepiece
