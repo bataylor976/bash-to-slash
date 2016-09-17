@@ -1,11 +1,12 @@
 #!/bin/bash
 #Bash-to-slash commandline interface function library 
 
-# Initializes the array that holds the game's directory paths for piece placement.
-initdirs() {
+# Initializes the arrays that hold the game's directory path and players choices for piece placement.
+initarrs() {
   correctdirs=( "$HOME/Desktop/test1" "$HOME/Desktop/testdir/test1" '/path/to/file3' '/path/to/file4'\
   '/path/to/file5' '/path/to/file6' '/path/to/file7' '/path/to/file8'\
   '/path/to/file9' '/path/to/file10' '/path/to/file11' '/path/to/file12' ) 
+  declare -A selectedpiecestemp
 }
 
 #List the designated directories.
@@ -15,20 +16,20 @@ listdirs() {
   done
 }
 
-# Stores & places  player's selected hidingplace.
+# Stores & places player's selected hidingplace.
 selectpiece() {
   hidingplace="${1}"
-  placepiece
+  placepiecetemp
 }
 
-# Places player's selection.
-placepiece() {
+# Places player's selection in temporary array.
+placepiecetemp() {
   selectioncorrect
   alreadyselected
   if [[ $correct = y ]] && [[ $selected = n ]]; then
-    printf "Placing piece: %s.\n" $hidingplace
-    printf "" > "${hidingplace}"
-    addselect
+    printf "Piece queued for placement: %s.\n" $hidingplace
+    #printf "" > "${hidingplace}"
+    addselecttemp
     clearvars
   elif [[ $correct = n ]]; then
     printf "Invalid location or filname: %s\nPlease select another.\n" $hidingplace
@@ -39,21 +40,42 @@ placepiece() {
   fi
 }
 
-# Adds player's selection to the selectedpieces array.
-addselect() {
-  selectedpieces+=("$hidingplace")
-}
-
-# Lists player's pieces that are aleady selected.
-listselect() {
-  for i in "${selectedpieces[@]}"; do
-    printf "%s\n" $i
+# Once piece locations have been selected, and player is satisfied w/ their locations, place them accordingly.
+placepieces() {
+  for i in "${selectedpiecestemp[@]}"; do
+    printf "" > "$i"
   done
 }
 
-# Generic test function to be called when needed in more specific testing functions.
+# Removes all placed pieces.
+rmall() {
+  printf "The following pieces have been removed: \n"
+  for i in "${selectedpiecestemp[@]}"; do
+    rm "$i"
+    printf "%s\n" "$i"
+  done
+}
+
+# Adds player's selection to the selectedpiecestemp array.
+addselecttemp() {
+  selectedpiecestemp+=("$hidingplace")
+}
+
+# Prints player's pieces that are aleady selected in key-value pairs. So if players wishe to remove and replace pieces in different locations, they will know which to select.
+listselect() {
+  for i in "${!selectedpiecestemp[@]}"; do
+    printf "%s\t${selectedpiecestemp[$i]}\n" "$i"
+  done
+}
+
+rmselect() {
+  unset selectedpiecestemp["${1}"]
+  selectedpiecestemp=("${selectedpiecestemp[@]}")
+}
+
+# Generic test function to be called when needed in more specific testing functions
 isin() {
-  local pattern="$1" element
+  local pattern="${1}" element
   shift
   for element; do
     [[ $element = $pattern ]] && return 0
@@ -72,7 +94,7 @@ selectioncorrect() {
 
 # Specific test function for testing if location is already selected.
 alreadyselected() {
-  if isin "$hidingplace" "${selectedpieces[@]}"; then
+  if isin "$hidingplace" "${selectedpiecestemp[@]}"; then
     selected=y
     #printf "Location already selected: %s.\nPleases select another.\n" "$hidingplace"
   else
@@ -88,4 +110,4 @@ clearvars() {
 }
 
 # Create the directories.
-initdirs
+initarrs
