@@ -1,12 +1,11 @@
 #!/bin/bash
 #Bash-to-slash commandline interface function library 
 
-# Initializes the arrays that hold the game's directory path and players choices for piece placement.
+# Initializes the arrays that hold the game's directory path, along with players' initial and final choices for piece placement.
 initarrs() {
-  correctdirs=( "$HOME/Desktop/test1" "$HOME/Desktop/testdir/test1" '/path/to/file3' '/path/to/file4'\
-  '/path/to/file5' '/path/to/file6' '/path/to/file7' '/path/to/file8'\
-  '/path/to/file9' '/path/to/file10' '/path/to/file11' '/path/to/file12' ) 
+  correctdirs=( "$HOME/Desktop/testdir/test1/test1" "$HOME/Desktop/testdir/test2/test2" "$HOME/Desktop/testdir/test3/test3" "$HOME/Desktop/testdir/test4/test4" "$HOME/Desktop/testdir/test5/test5" "$HOME/Desktop/testdir/test6/test6" "$HOME/Desktop/testdir/test7/test7" "$HOME/Desktop/testdir/test8/test8" "$HOME/Desktop/testdir/test9/test9" "$HOME/Desktop/testdir/test10/test10" "$HOME/Desktop/testdir/test11/test11" "$HOME/Desktop/testdir/test12/test12" ) 
   declare -A selectedpiecestemp
+  declare -A placedpieces
 }
 
 #List the designated directories.
@@ -45,15 +44,24 @@ placepieces() {
   for i in "${selectedpiecestemp[@]}"; do
     printf "" > "$i"
   done
+  temptofinal
 }
 
-# Removes all placed pieces.
+# Place items from selectedpiecestemp into placedpieces array.
+temptofinal() {
+  for i in "${selectedpiecestemp[@]}"; do
+    placedpieces+=("$i")
+  done
+}
+
+# Removes all placed pieces from their actual locations in the filesystem, and unsets the placedpieces array. 
 rmall() {
   printf "The following pieces have been removed: \n"
   for i in "${selectedpiecestemp[@]}"; do
     rm "$i"
     printf "%s\n" "$i"
   done
+  unset placedpieces
 }
 
 # Adds player's selection to the selectedpiecestemp array.
@@ -61,15 +69,25 @@ addselecttemp() {
   selectedpiecestemp+=("$hidingplace")
 }
 
-# Prints player's pieces that are aleady selected in key-value pairs. So if players wishe to remove and replace pieces in different locations, they will know which to select.
+# Prints player's pieces that are aleady selected in key-value pairs. So if players wish to remove and replace pieces in different locations, they will know which to select.
 listselect() {
   for i in "${!selectedpiecestemp[@]}"; do
     printf "%s\t${selectedpiecestemp[$i]}\n" "$i"
   done
 }
 
+listplaced() {
+  for i in "${placedpieces[@]}"; do
+    printf "%s\n" "$i"
+  done
+}
+
+# For making adjustments to piece locations prior to final placement. Remove any number of pieces from selectpiecestemp array by specifying command line arguments. For example, rmselect 0 1 4 removes pieces at those locations in the array.
 rmselect() {
-  unset selectedpiecestemp["${1}"]
+  while [ $# -gt 0 ]; do
+    unset selectedpiecestemp["${1}"]
+    shift
+  done
   selectedpiecestemp=("${selectedpiecestemp[@]}")
 }
 
